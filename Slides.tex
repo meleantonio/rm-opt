@@ -1,0 +1,481 @@
+
+%\documentclass[12pt,handout]{beamer}
+\documentclass[show notes]{beamer}%
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[labelformat=empty]{caption}
+\usepackage{graphicx}
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphics}
+%\usepackage{mathptmx}%
+\setcounter{MaxMatrixCols}{30}%
+\usepackage{amsfonts}
+\usepackage{media9}
+\usepackage{movie15}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.13}
+% \usepackage{wrapfig}
+\usepackage{marvosym}
+\usepackage{listings}
+\usepackage[framed,numbered]{matlab-prettifier}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+
+
+
+
+\providecommand{\U}[1]{\protect\rule{.1in}{.1in}}
+
+\newenvironment{stepenumerate}{\begin{enumerate}[<+->]}{\end{enumerate}}
+\newenvironment{stepitemize}{\begin{itemize}[<+->]}{\end{itemize} }
+\newenvironment{stepenumeratewithalert}{\begin{enumerate}[<+-| alert@+>]}{\end{enumerate}}
+\newenvironment{stepitemizewithalert}{\begin{itemize}[<+-| alert@+>]}{\end{itemize} }
+%\usetheme{Szeged}
+%\mode<presentation>
+%{
+%}
+%\useoutertheme{default}
+%\makeatletter
+
+\definecolor{midgreen}{rgb}{0,0.7,0}
+\definecolor{purple}{rgb}{0.5, 0.0, 0.5}
+\definecolor{bluegreen}{rgb}{0.0,0.5, 0.5}
+\definecolor{orange}{rgb}{.8,0.33, 0}
+\definecolor{redgreen}{rgb}{0.5, 0.5, 0.0}
+\definecolor{lightgray}{rgb}{0.8,0.8,0.8}
+
+\def\blue{\color{blue}}
+\def\red{\color{red}}
+\def\green{\color{midgreen}}
+\def\purple{\color{purple}}
+\def\bluegreen{\color{bluegreen}}
+\def\orange{\color{orange}}
+\def\redgreen{\color{redgreen}}
+\def\black{\color{black}}
+\def\gray{\color{gray}}
+\def\ltgray{\color{lightgray}}
+
+\newcommand\V{\mathbb{V}}
+\newcommand\UU{\mathbb{U}}
+\newcommand\W{\mathbb{W}}
+\newcommand\R{\mathbb{R}}
+\newcommand\C{\mathbb{C}}
+\newcommand\vv{\vec{v}}
+\newcommand\vu{\vec{u}}
+\newcommand\vw{\vec{w}}
+\newcommand\vx{\vec{x}}
+\newcommand\vy{\vec{y}}
+\newcommand\vz{\vec{z}}
+\newcommand\ve{\vec{e}}
+\newcommand\vd{\vec{d}}
+\newcommand\vc{\vec{c}}
+\newcommand\va{\vec{a}}
+\newcommand\vb{\vec{b}}
+\newcommand\vzero{\vec{0}}
+\newcommand\cB{\mathcal{B}}
+
+
+\DeclareMathOperator{\Span}{Span}
+\DeclareMathOperator{\Nul}{Nul}
+\DeclareMathOperator{\Col}{Col}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\Null}{Null}
+
+
+\def\divideline{\line(1,0){352}}
+\newcommand\be{\begin{enumerate}[(1)]}
+	\newcommand\ee{\end{enumerate}}
+
+
+
+
+
+\mode<presentation> {
+	\usetheme{Szeged}
+%		\usecolortheme{frigatebird}
+	%	\usecolortheme{seahorse}
+	\usecolortheme{beaver}
+	%	\usecolortheme{whale}
+	% \usefonttheme{serif}
+	%\useoutertheme{shadow}
+	\useoutertheme{infolines}
+	\useoutertheme{miniframes} 
+	%  \setbeamercovered{transparent}  
+	\setbeamercovered{invisible}
+}
+
+
+
+
+
+\setbeamertemplate{footline}{
+	\leavevmode%
+	\hbox{
+		\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+			\usebeamerfont{title in head/foot}\insertshorttitle		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+			\usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+			\insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+	\end{beamercolorbox}}%
+	\vskip0pt%
+}
+
+\makeatother
+\setbeamertemplate{navigation symbols}{}
+%BeginMSIPreambleData
+\ifx\pdfoutput\relax\let\pdfoutput=\undefined\fi
+\newcount\msipdfoutput
+\ifx\pdfoutput\undefined\else
+\ifcase\pdfoutput\else
+\msipdfoutput=1
+\ifx\paperwidth\undefined\else
+\ifdim\paperheight=0pt\relax\else\pdfpageheight\paperheight\fi
+\ifdim\paperwidth=0pt\relax\else\pdfpagewidth\paperwidth\fi
+\fi\fi\fi
+
+
+
+
+\title[Solving economic problems with MATLAB]{Solving economic problems with MATLAB}
+
+\author[Antonio Mele]{Antonio Mele}
+\institute[University of Surrey]{University of Surrey}
+\date{}
+%\date[October 21, 2010]{October 21, 2010}
+
+\begin{document}
+
+
+\lstset{ style = Matlab-editor,  basicstyle = \mlttfamily, tabsize = 2 , morekeywords={bsxfun, fmincon, fminunc, fsolve, fzero,optimset}}
+
+\lstnewenvironment{MATLAB}[1][,]{\lstset{language = Matlab-pretty, style = Matlab-editor,  basicstyle = \mlttfamily, morekeywords={parfor}, float,#1, }}{}
+
+
+\newcommand{\inlineMATLAB}[1][,]{\lstinline[language = Matlab-pretty, style = Matlab-editor,  basicstyle = \mlttfamily, morekeywords={parfor},#1,]}
+
+%\lstset{language=Matlab,
+%   keywords={break,case,catch,continue,else,elseif,end,for,function,
+%      global,if,otherwise,persistent,return,switch,try,while},
+%   basicstyle=\ttfamily,
+%   keywordstyle=\color{blue},
+%   commentstyle=\color{dkgreen},
+%   stringstyle=\color{red},
+%   numbers=left,
+%   numberstyle=\tiny\color{gray},
+%   stepnumber=1,
+%   numbersep=10pt,
+%   backgroundcolor=\color{white},
+%   tabsize=4,
+%   showspaces=false,
+%   showstringspaces=false,
+%   lineskip={-.02\baselineskip}}
+
+\newtheorem{res}{\sc Result}
+
+
+
+\begin{frame}
+  \titlepage  
+\end{frame}
+
+
+\section{Introduction}
+
+
+
+%\begin{frame}
+%	\begin{center}
+%		\begin{figure}[ht]
+%			\includemedia[
+%			width=\linewidth,
+%			%keepaspectratio,
+%			height=0.6\linewidth,
+%			activate=pageopen,  
+%			addresource=MatchmakerNumMethods.wmv,
+%			flashvars={
+%				source=MatchmakerNumMethods.wmv
+%				&loop=false  % loop the video
+%				&playbutton= fancy 
+%			}
+%			]{}{VPlayer.swf}
+%		\end{figure}
+%	\end{center}
+%\end{frame}
+
+%\begin{frame}
+%	\begin{center}
+%		\begin{figure}[ht]
+%			\includemovie[poster,autoplay, mouse=true]{12cm}{9cm}{MatchmakerNumMethods.wmv}
+%		\end{figure}
+%	\end{center}
+%\end{frame}
+
+\begin{frame}[fragile]{Why numerical methods?},
+\begin{itemize}[<+->]
+\item Many economic problems are VERY complicated
+\item No analytical solution
+\item Often, even if we can describe some QUALITATIVE features, we need numerical methods for QUANTITATIVE results
+\item Mostly: solving non-linear equations and optimisation problems
+\end{itemize}
+\end{frame}
+
+\section{Nonlinear equations}
+
+
+\begin{frame}[fragile]
+\frametitle{Optimization Toolbox: basics}
+The toolbox includes:
+\begin{itemize}[<+->]
+\item linear programming
+\item quadratic programming
+\item binary integer programming
+\item nonlinear optimization
+\item nonlinear least squares
+\item systems of nonlinear equations
+\item multiobjective optimization
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Optimization Toolbox: basics (cont.)}
+Solvers are minimizers!\pause
+
+If you perform a \textbf{maximization}: define your objective as $-f(x)$ and remember to change sign to the value obtained.\pause
+
+All the functions are \textbf{function functions}: they take other functions as inputs. In particular:
+\begin{itemize}
+\item the objective function is a \textbf{function} file
+\item nonlinear constraints must be set in a \textbf{function} file
+\end{itemize}\pause
+
+Options: set with \texttt{optimset}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{REMINDER: what is a function?}
+
+
+\begin{lstlisting}
+    function z = olscoefficient(X,Y)    
+    	z = inv(X'*X)*(X'*Y);
+    end
+\end{lstlisting}
+
+
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Nonlinear equations in one variable}
+Use the function \texttt{fzero}: finds roots of continuous functions
+
+Syntax:
+
+\begin{lstlisting}
+    [x, fval] = fzero('objfun',x0);
+\end{lstlisting}
+
+\texttt{x}: optimum
+
+\texttt{fval}: value of the objective function calculated in the optimum
+
+\texttt{objfun}: function file where we have stored the objective function
+
+\texttt{x0}: initial condition from which \texttt{fzero} looks for a solution
+
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{Nonlinear equations in more than one variable}
+
+If you have $n$ nonlinear equations $F_i (x) = 0$, with $x \in R^n$, use \texttt{fsolve}.
+
+Syntax:
+
+\begin{lstlisting}
+    [x, fval] = fsolve('objfun',x0);
+\end{lstlisting}
+
+\texttt{x}: optimum
+
+\texttt{fval}: value of the objective function calculated in the optimum
+
+\texttt{objfun}: function file where we have stored the objective function
+
+\texttt{x0}: initial condition from which \texttt{fsolve} looks for a solution
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Example 1}
+Solve the following system of equations:
+\begin{align*}
+& c_1^{-\sigma} = \beta (1+r) c_2^{-\sigma} \\
+& c_1 + \frac{c_2}{1+r} = y_1 + \frac{y_2}{1+r} 
+\end{align*}
+where $r=0.05$, $\sigma = 2$, $\beta = .99$, and $y_1 = y_2 = 1$.
+\end{frame}
+
+
+\begin{frame}[fragile]{Example 2}
+Same as before, but with an initial amount of savings $s_0$:
+\begin{align*}
+& c_1^{-\sigma} = \beta (1+r) c_2^{-\sigma} \\
+& c_1 + \frac{c_2}{1+r} = y_1 + \frac{y_2}{1+r} + s_0
+\end{align*}
+where $r=0.05$, $\sigma = 2$, $\beta = .99$, and $y_1 = y_2 = 1$.
+
+Solve for the optimal allocation for different values of the initial savings. 
+\end{frame}
+
+
+\section{Optimization}
+
+
+\begin{frame}[fragile]
+\frametitle{Optimization: general rules}
+
+Types of constraints:  \pause
+
+\begin{enumerate}
+
+\item \textbf{Bound Constraints}: $x \geq l$, $x \leq u$ \pause
+
+\item \textbf{Linear Inequality Constraints}: $A \cdot x \leq  b$, where A is an m by n matrix, which represents m constraints for an n dimensional vector x, and b is m dimensional \pause
+
+\item \textbf{Linear Equality Constraints}: $Aeq \cdot x = beq$, same dimensionality of linear inequality constraints \pause
+
+\item \textbf{Nonlinear Constraints}: $c\left(x \right) \leq 0$ and $ceq\left(x\right) = 0$. Both $c$ and $ceq$ are scalars or vectors representing several constraints
+
+\end{enumerate}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{Setting options}
+
+Each algorithm has many options on the type of algorithm to use, on the output to show in command window, the convergence criterion, etc. \pause
+
+To set them: use \texttt{optimset}
+{\small
+\begin{lstlisting}
+options = optimset('param1',value1, 'param2',value2,...);
+\end{lstlisting}
+}\pause
+
+\textbf{IMPORTANT}: some parameter values are strings, therefore you have to enter them between '    '. Example:
+
+\begin{lstlisting}
+options  = optimset('Display','iter');
+\end{lstlisting}
+
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Unconstrained Minimization}
+No constraints
+\begin{equation*}
+\min_{x} f(x)
+\end{equation*} \pause
+
+Use \texttt{fminunc}:
+
+\begin{lstlisting}
+[x, fval] = fminunc('objfun',x0)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Constrained Minimization}
+
+\begin{align*}
+\min_{x} &\quad f(x) \\
+s.t. \quad & x \geq LB, \quad x \leq UB \\
+& A \cdot x \leq B, \quad Aeq \cdot x = Beq \\
+& c(x) \leq 0, \quad ceq(x) = 0
+\end{align*} \pause
+Use \texttt{fmincon}:
+
+\begin{lstlisting}
+[x, fval] = fmincon('objfun',x0,A,B,Aeq,Beq,...
+    LB,UB,nonlcon);
+\end{lstlisting}
+When one or more constraints absent: use \texttt{[]}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Writing a nonlinear constraint function} \pause
+It must have a particular structure
+
+\begin{lstlisting}
+function [c, ceq] = nonlinconst(input1,input2,...)
+
+c(1) = ...
+c(2) = ...
+...
+ceq(1) = ...
+ceq(2) = ...
+...
+\end{lstlisting} \pause
+If no constraints of one type: use \texttt{ceq = [];}
+
+\end{frame}
+
+\begin{frame}[fragile]{Example 1}
+Use fmincon to maximize the utility function $u(c) = \frac{c^{1-\sigma}}{1-\sigma}$ under the constraints:
+    \begin{align*}
+    & c \geq 0 \\
+    & c \leq y
+    \end{align*}
+    where $\sigma = 2$ and $y = 1$.
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]{Example 2}
+Take again a two-periods economy with an initial amount of savings $s_0$. Your problem is
+\begin{align*}
+ \max_{c_1,c_2} \, & \frac{c_1^{1-\sigma}}{1-\sigma} + \beta \frac{c_2^{1-\sigma}}{1-\sigma} \\
+& s.t. \quad  c_1 + \frac{c_2}{1+r} \leq y_1 + \frac{y_2}{1+r} + s_0
+\end{align*}
+where $r=0.05$, $\sigma = 2$, $\beta = .99$, and $y_1 = y_2 = 1$. Solve for the optimal allocation for different values of the initial savings. (Hint: vectorizing the procedure is not possible here, therefore you need to use a \texttt{for} loop).
+\end{frame}
+
+
+\begin{frame}[fragile]{Example 3}
+Maximize the utility function $u(c_1,...,c_{10}) =\sum_{i=1}^{10} \frac{ c_i^{1-\sigma}}{1-\sigma}$ under the constraints:
+    \begin{align*}
+    & c_i \geq 0 \text{ for all } i \\
+    & \sum_{i=1}^{10} c_i \leq  y \\
+    & 2c_3 + c1 = 12 \\
+    & 0.5 ( c_{5} - c_4)^{2} = 4
+    \end{align*}
+    where $\sigma = 2$ and $y = 100$.
+\end{frame}
+
+
+
+
+\end{document}
