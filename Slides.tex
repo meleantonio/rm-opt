@@ -1,5 +1,3 @@
-
-%\documentclass[12pt,handout]{beamer}
 \documentclass[show notes]{beamer}%
 \usepackage{amssymb}
 \usepackage{amsmath}
@@ -96,9 +94,9 @@
 
 \mode<presentation> {
 	\usetheme{Szeged}
-%		\usecolortheme{frigatebird}
-	%	\usecolortheme{seahorse}
-	\usecolortheme{beaver}
+		\usecolortheme{frigatebird}
+		% \usecolortheme{seahorse}
+	% \usecolortheme{beaver}
 	%	\usecolortheme{whale}
 	% \usefonttheme{serif}
 	%\useoutertheme{shadow}
@@ -150,29 +148,29 @@
 \begin{document}
 
 
-\lstset{ style = Matlab-editor,  basicstyle = \mlttfamily, tabsize = 2 , morekeywords={bsxfun, fmincon, fminunc, fsolve, fzero,optimset}}
+% \lstset{ style = Matlab-editor,  basicstyle = \mlttfamily, tabsize = 2 , keywordstyle = \color{cyan}, morekeywords={bsxfun, fmincon, fminunc, fsolve, fzero, optimset, function, end}}
 
-\lstnewenvironment{MATLAB}[1][,]{\lstset{language = Matlab-pretty, style = Matlab-editor,  basicstyle = \mlttfamily, morekeywords={parfor}, float,#1, }}{}
+% \lstnewenvironment{MATLAB}[1][,]{\lstset{language = Matlab-pretty, style = Matlab-editor,  keywordstyle = \color{cyan},basicstyle = \mlttfamily, morekeywords={parfor, bsxfun, fmincon, fminunc, fsolve, fzero, optimset, function, end}, float,#1, }}{}
 
 
-\newcommand{\inlineMATLAB}[1][,]{\lstinline[language = Matlab-pretty, style = Matlab-editor,  basicstyle = \mlttfamily, morekeywords={parfor},#1,]}
+% \newcommand{\inlineMATLAB}[1][,]{\lstinline[language = Matlab-pretty, style = Matlab-editor, keywordstyle = \color{cyan}, basicstyle = \mlttfamily, morekeywords={parfor, bsxfun, fmincon, fminunc, fsolve, fzero, optimset, function, end},#1,]}
 
-%\lstset{language=Matlab,
-%   keywords={break,case,catch,continue,else,elseif,end,for,function,
-%      global,if,otherwise,persistent,return,switch,try,while},
-%   basicstyle=\ttfamily,
-%   keywordstyle=\color{blue},
-%   commentstyle=\color{dkgreen},
-%   stringstyle=\color{red},
-%   numbers=left,
-%   numberstyle=\tiny\color{gray},
-%   stepnumber=1,
-%   numbersep=10pt,
-%   backgroundcolor=\color{white},
-%   tabsize=4,
-%   showspaces=false,
-%   showstringspaces=false,
-%   lineskip={-.02\baselineskip}}
+\lstset{language=Matlab,
+  keywords={break,case,catch,continue,else,elseif,end,for,function,
+     global,if,otherwise,persistent,return,switch,try,while, fmincon, fminunc, fsolve, fzero, optimset, function, end},
+  basicstyle=\ttfamily,
+  keywordstyle=\color{cyan},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{red},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  numbersep=10pt,
+  backgroundcolor=\color{black},
+  tabsize=4,
+  showspaces=false,
+  showstringspaces=false,
+  lineskip={-.02\baselineskip}}
 
 \newtheorem{res}{\sc Result}
 
@@ -214,7 +212,7 @@
 %	\end{center}
 %\end{frame}
 
-\begin{frame}[fragile]{Why numerical methods?},
+\begin{frame}[fragile]{Why numerical methods?}
 \begin{itemize}[<+->]
 \item Many economic problems are VERY complicated
 \item No analytical solution
@@ -306,7 +304,8 @@ If you have $n$ nonlinear equations $F_i (x) = 0$, with $x \in R^n$, use \texttt
 Syntax:
 
 \begin{lstlisting}
-    [x, fval] = fsolve('objfun',x0);
+    [x, fval] = fsolve('objfun',x0, options, ...
+    	[additional parameters]);
 \end{lstlisting}
 
 \texttt{x}: optimum
@@ -316,6 +315,10 @@ Syntax:
 \texttt{objfun}: function file where we have stored the objective function
 
 \texttt{x0}: initial condition from which \texttt{fsolve} looks for a solution
+
+\texttt{options}: options for the solver (see later)
+
+\texttt{[additional parameters]}: if \texttt{objfun} has more than one argument, the additional ones are added here
 
 \end{frame}
 
@@ -400,7 +403,8 @@ No constraints
 Use \texttt{fminunc}:
 
 \begin{lstlisting}
-[x, fval] = fminunc('objfun',x0)
+[x, fval] = fminunc('objfun', x0, options, ...
+  [additional parameters])
 \end{lstlisting}
 \end{frame}
 
@@ -416,8 +420,8 @@ s.t. \quad & x \geq LB, \quad x \leq UB \\
 Use \texttt{fmincon}:
 
 \begin{lstlisting}
-[x, fval] = fmincon('objfun',x0,A,B,Aeq,Beq,...
-    LB,UB,nonlcon);
+[x, fval] = fmincon('objfun', x0, A, B, Aeq, Beq,...
+  LB, UB, nonlcon, options, [additional parameters]);
 \end{lstlisting}
 When one or more constraints absent: use \texttt{[]}
 
