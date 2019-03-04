@@ -8,4 +8,4 @@ In the Codes folder:
 - NLEQ contains the examples for nonlinear equations;
 - OPTIM contains the examples for optimization.
 
-(c) 2017, meleantonio
+(c) 2019, meleantonio
