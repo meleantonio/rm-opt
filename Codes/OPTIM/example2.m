@@ -19,7 +19,7 @@ for i=1:length(s0_vector)
     s0 = s0_vector(i);
     
     % constraints
-        A = [1 1/(1+r)];
+    A = [1 1/(1+r)];
     B = [ y1+ y2/(1+r) + s0];
     LB = [0;0];
     UB = [ y1+ y2/(1+r) + s0;  y1+ y2/(1+r) + s0];
